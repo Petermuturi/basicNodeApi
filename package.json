@@ -1,0 +1,23 @@
+{
+  "name": "basic-node-api",
+  "version": "1.0.0",
+  "description": "Node server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Petermuturi/basicNodeApi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Petermuturi/basicNodeApi/issues"
+  },
+  "homepage": "https://github.com/Petermuturi/basicNodeApi#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2"
+  }
+}
