@@ -2,7 +2,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-
 // create express app
 var app = express();
 
@@ -21,7 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Service routes
 app.use('/api', routes);
-
 
 // start server
 app.listen(port, () => {
