@@ -15,15 +15,22 @@ router.get('/data', (req, res) => {
 //POST /api/data
 router.post('/data', (req, res) => {
   // create dummy data
+  
+  // var dataObj = {
+  //   name: "Harrison",
+  //   occupation: "Coder"
+  // } 
+
   // can be changed via POSTMAN
   var dataObj = {
-    name: "Harrison",
-    occupation: "Coder"
-  } 
+    name: req.body.name,
+    occupation: req.body.occupation
+  }
   // respond with a json object
   res.json(dataObj);
   
-})
+});
+
 
 // Modules for export
 module.exports = router;
