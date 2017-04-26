@@ -6,14 +6,21 @@ var bodyParser = require('body-parser');
 // create express app
 var app = express();
 
+// local imports
+var config = require('./config/config');
+var routes = require('./routes/index');
 
 // Set default port
-var port = process.env.PORT || 4000;
+var port = config.port || 4000;
 
-// basic routes
-app.get('/', (req, res) =>{
-	res.send("Hello world");
-})
+// create application/json parser
+app.use(bodyParser.json());
+
+// create application/x-www-form-urlencoded parser
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Service routes
+app.use('/api', routes);
 
 
 // start server
