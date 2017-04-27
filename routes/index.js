@@ -2,6 +2,9 @@
 var express = require('express');
 var router = express.Router();
 
+// local imports
+var Person = require('../models/person');
+
 // GET home route: /api/
 router.get('/', (req, res) => {
   res.send("Hello World");
@@ -9,26 +12,37 @@ router.get('/', (req, res) => {
 
 // GET /api/data
 router.get('/data', (req, res) => {
-  res.send('data');
+  Person.find({}, (err, person) => {
+    if (err) throw err;
+    res.json(person);
+  })
+
 })
 
 //POST /api/data
 router.post('/data', (req, res) => {
-  // create dummy data
-  
-  // var dataObj = {
-  //   name: "Harrison",
-  //   occupation: "Coder"
-  // } 
+  var person = new Person();
+  person.name = req.body.name;
+  person.occupation = req.body.occupation;
 
-  // can be changed via POSTMAN
-  var dataObj = {
-    name: req.body.name,
-    occupation: req.body.occupation
-  }
-  // respond with a json object
-  res.json(dataObj);
-  
+  // create a new person
+  Person.create(person, (err, persons) => {
+    if (err) {
+      throw err;
+    } else {
+      // check if that person already exists
+      var query = Person.findOne({ "name": person.name });
+      if (!query) {
+        console.log(`Person saved successfully ${persons}`);
+        res.redirect('/api/data');
+      } else {
+        console.log("Person already exists");
+        res.redirect('/api')
+      }
+
+    }
+  })
+
 });
 
 
