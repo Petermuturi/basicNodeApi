@@ -52,21 +52,19 @@ router.post('/data', (req, res) => {
 
 // Update person
 router.put('/data/:name', (req, res) => {
-  var person = req.params.name.toString();
-  Person.findOne({ "name": person }, (err, result) => {
-    if (err) {
-      throw err;
-    } else {
-      let name = result.name;
-      console.log(`${person} found`);
-      
-      // console.log(name);
-      Person.update({ "name": name }, { $set: { "name": req.body.name } });
+  var personName = req.params.name.toString();
+  Person.findOne({ "name": personName }, (err, person) => {
+    if (err) throw err;
+    console.log(`${person} found`);
+    person.name = req.body.name;
+    person.occupation = req.body.occupation;
+    person.save((err, result) => {
+      if (err) throw err;
       res.json({
-        message: `${name} changed to ${req.body.name}`
+        message: `${personName} changed to ${req.body.name}`
       })
-      
-    }
+
+    });
 
   });
 })
