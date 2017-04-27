@@ -61,7 +61,8 @@ router.put('/data/:name', (req, res) => {
     person.save((err, result) => {
       if (err) throw err;
       res.json({
-        message: `${personName} changed to ${req.body.name}`
+        name: `${personName} changed to ${req.body.name}`,
+        occupation: `Occupation changed to ${req.body.occupation}`,
       })
 
     });
