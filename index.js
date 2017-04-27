@@ -7,7 +7,11 @@ var app = express();
 
 // local imports
 var config = require('./config/config');
+var mongoose = require('./config/database');
 var routes = require('./routes/index');
+
+// connect to database
+var db = mongoose.connection;
 
 // Set default port
 var port = config.port || 4000;
