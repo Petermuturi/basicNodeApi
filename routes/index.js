@@ -25,28 +25,27 @@ router.post('/data', (req, res) => {
   person.occupation = req.body.occupation;
   var namesArray = [];
 
-  // create a new person
-  Person.create(person, (err, persons) => {
-    if (err) {
-      throw err;
-    } else {
-      // check if that person already exists
-      _query().then((result) => {
-        result.map((person) => {
-          namesArray.push(person.name);
-        })
-        if (_isPresent(namesArray, person.name) === true) {
-          console.log("user exist");
-          res.redirect('/api');
-        } else {
-          console.log(`${person} saved to db`);
-          res.redirect('/api/data');
-        }
+
+  // check if that person already exists
+  _query().then((result) => {
+    result.forEach((data) => {
+      namesArray.push(data.name);
+    })
+    if (namesArray.includes(person.name) === true) {
+      console.log("user exists");
+      res.json({
+        message: `${person.name} already exists in the database!`
       });
-
+    } else {
+      // create a new person
+      Person.create(person, (err, persons) => {
+        if (err) throw err;
+        console.log(`${person} saved to db`);
+        res.redirect('/api/data');
+      })
     }
-  })
 
+  });
 });
 
 // Update person
@@ -72,13 +71,29 @@ router.put('/data/:name', (req, res) => {
 // Delete person - find person by name
 router.delete('/data/:name', (req, res) => {
   var person = req.params.name.toString();
-  Person.remove({ "name": person }, (err, result) => {
-    if (err) throw err;
-    console.log(`${person} has been deleted!`);
-    res.json({
-      message: `${person} deleted`
+  var namesArray = [];
+
+  // check if that person already exists
+  _query().then((result) => {
+    result.forEach((data) => {
+      namesArray.push(data.name);
     })
+    if (namesArray.includes(person) === true) {
+      Person.remove({ "name": person }, (err, result) => {
+        if (err) throw err;
+        console.log(`${person} has been deleted!`);
+        res.json({
+          message: `${person} deleted`
+        })
+      })
+    } else {
+      console.log("Person doesn't exist");
+      res.json({
+        message: `${person} doesn't exist `
+      })
+    }
   })
+
 })
 
 // Private functions
@@ -89,18 +104,10 @@ function _query() {
         reject(err);
       } else {
         resolve(person);
-      }
-    })
-  })
-}
 
-function _isPresent(arr, item) {
-  arr.forEach((name) => {
-    if (item == arr[name]) {
-      return true;
-    } else {
-      return false;
-    }
+      }
+
+    })
   })
 }
 
