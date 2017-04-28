@@ -18,6 +18,31 @@ router.get('/data', (req, res) => {
 
 })
 
+// GET one person by name: /api/data/:name
+router.get('/data/:name', (req, res) => {
+  var name = req.params.name.toString();
+  var namesArray = [];
+
+  _query().then((result) => {
+    result.forEach((data) => {
+      namesArray.push(data.name);
+    })
+
+    if (namesArray.includes(name) === true) {
+      Person.findOne({ "name": name }, (err, person) => {
+        if (err) throw err;
+        res.json(person);
+      })
+    } else {
+      res.json({
+        message: `${name} doesn't exist`
+      })
+    }
+  })
+
+
+})
+
 //POST /api/data
 router.post('/data', (req, res) => {
   var person = new Person();
