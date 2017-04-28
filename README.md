@@ -1,4 +1,4 @@
-# Node server
+# Node REST API
 
 ## NB
 All routes have been **prefixed** by **/api**
