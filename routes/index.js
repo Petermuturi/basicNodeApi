@@ -7,7 +7,7 @@ var Person = require('../models/person');
 
 // GET home route: /api/
 router.get('/', (req, res) => {
-  res.send("Hello World");
+  res.send("<h1>Hello World!</h1> Add /data to view all persons");
 });
 
 // GET /api/data
