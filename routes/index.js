@@ -12,9 +12,8 @@ router.get('/', (req, res) => {
 
 // GET /api/data
 router.get('/data', (req, res) => {
-  Person.find({}, (err, person) => {
-    if (err) throw err;
-    res.json(person);
+  _query().then((persons) => {
+    res.json(persons);
   })
 
 })
