@@ -1,6 +1,7 @@
 // Import modules from NPM Registry
 var express = require('express');
 var bodyParser = require('body-parser');
+var morgan = require('morgan')
 
 // create express app
 var app = express();
@@ -9,6 +10,9 @@ var app = express();
 var config = require('./config/config');
 var mongoose = require('./config/database');
 var routes = require('./routes/index');
+
+// Logger
+app.use(morgan('dev'));
 
 // connect to database
 var db = mongoose.connection;
